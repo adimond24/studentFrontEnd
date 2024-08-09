@@ -1,5 +1,5 @@
 {
-  "name": "student-frontend-project",
+  "name": "second-try",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -9,12 +9,11 @@
     "bootstrap": "^5.3.3",
     "bootswatch": "^5.3.3",
     "jquery": "^3.7.1",
-    "mongodb": "^6.8.0",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.4",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.0",
-    "react-scripts": "^3.0.1",
+    "react-scripts": "5.0.1",
     "sass": "^1.77.8",
     "scss": "^0.2.4",
     "web-vitals": "^2.1.4"

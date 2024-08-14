@@ -35,7 +35,7 @@ export default function RecordList() {
         setLoading(true);
         async function getRecords(){
             const response = await fetch(
-                `mongodb+srv://john:2025Ad69563@nodeexpressprojects.dvz4bvx.mongodb.net/?retryWrites=true&w=majority&appName=NodeExpressProjects`
+                `http://localhost:3001/students`
             );
             console.log(response);
             setLoading(false);

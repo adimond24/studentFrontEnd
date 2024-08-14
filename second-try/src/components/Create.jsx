@@ -1,88 +1,87 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export default function Create(){
+const Create = () => {
     const [form, setForm] = useState({
-        firstName:"",
+        firstName: "",
         lastName: "",
         email: "",
         age: "",
-        currentCollege: "",
+        currentCollege: ""
     });
     const navigate = useNavigate();
 
-    //These methods will update the state properties.
-    function updateForm(value){
-        return setForm((prev) =>{
-            return{...prev, ...value};
-        });
+    // Update form state
+    function updateForm(value) {
+        setForm(prev => ({
+            ...prev,
+            ...value
+        }));
     }
 
-    //This function will handle this submission.
-    async function onSubmit(e){
+    // Handle form submission
+    async function onSubmit(e) {
         e.preventDefault();
 
-        //When a post request is sent to the create url, we'll add a new record to the database.
-        const newPerson = {...form};
+        const newPerson = { ...form };
 
-        await fetch("mongodb+srv://john:2025Ad69563@nodeexpressprojects.dvz4bvx.mongodb.net/?retryWrites=true&w=majority&appName=NodeExpressProjects", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body:JSON.stringify(newPerson),
-        }).catch((error) =>{
+        try {
+            await fetch("http://localhost:3001/", { // Replace with your API URL
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(newPerson),
+            });
+            setForm({
+                firstName: "",
+                lastName: "",
+                email: "",
+                age: "",
+                currentCollege: "",
+            });
+            navigate("/");
+        } catch (error) {
             window.alert(error);
-            return;
-        });
-
-        setForm({
-            firstName: "",
-            lastName:"",
-            email:"",
-            age:"",
-            currentCollege:"",
-        });
-        navigate("/");
+        }
     }
 
-    //This following section will display the form that takes the input from the user.
-    return(
+    // Render form
+    return (
         <div>
             <h3>Create</h3>
             <form onSubmit={onSubmit}>
                 <div className="form-group">
-                    <label htmlFor="firstName"> First Name</label>
+                    <label htmlFor="firstName">First Name</label>
                     <input
-                      type="text"
-                      className="form-control"
-                      id="firstName"
-                      value={form.firstName}
-                      onChange={(e) => updateForm({firstname: e.target.value})}  
-                        >
-                    </input>
+                        type="text"
+                        className="form-control"
+                        id="firstName"
+                        value={form.firstName} // Fixed: Use the value from state
+                        onChange={(e) => updateForm({ firstName: e.target.value })}
+                    />
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="lastName"> Last Name</label>
-                    <input 
+                    <label htmlFor="lastName">Last Name</label>
+                    <input
                         type="text"
                         className="form-control"
                         id="lastName"
-                        value={form.lastName}
-                        onChange={(e) => updateForm({lastName:e.target.value})}
-                    ></input>
+                        value={form.lastName} // Fixed: Use the value from state
+                        onChange={(e) => updateForm({ lastName: e.target.value })}
+                    />
                 </div>
 
                 <div className="form-group">
                     <label htmlFor="email">Email</label>
-                     <input
+                    <input
                         type="text"
                         className="form-control"
                         id="email"
-                        value={form.email}
-                        onChange={(e) => updateForm({email: e.target.value})}
-                     ></input>
+                        value={form.email} // Fixed: Use the value from state
+                        onChange={(e) => updateForm({ email: e.target.value })}
+                    />
                 </div>
 
                 <div className="form-group">
@@ -91,30 +90,32 @@ export default function Create(){
                         type="text"
                         className="form-control"
                         id="age"
-                        value={form.age}
-                        onChange={(e) => updateForm({age: e.target.value})}
-                    ></input>
+                        value={form.age} // Fixed: Use the value from state
+                        onChange={(e) => updateForm({ age: e.target.value })}
+                    />
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="currentCollege"> Current College</label>
+                    <label htmlFor="currentCollege">Current College</label>
                     <input
                         type="text"
                         className="form-control"
                         id="currentCollege"
-                        value={form.currentCollege}
-                        onChange={(e) => updateForm({ currentCollege: e.target.value})}
-                    ></input>
+                        value={form.currentCollege} // Fixed: Use the value from state
+                        onChange={(e) => updateForm({ currentCollege: e.target.value })}
+                    />
                 </div>
 
-                <div className="form-group" style={{marginTop:"10px"}}>
+                <div className="form-group" style={{ marginTop: "10px" }}>
                     <input
-                      type="submit"
-                      value="Create Contact"
-                      className="btn btn-primary"
-                    ></input>
+                        type="submit"
+                        value="Create Contact"
+                        className="btn btn-primary"
+                    />
                 </div>
             </form>
         </div>
     );
 }
+
+export default Create;

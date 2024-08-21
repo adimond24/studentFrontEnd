@@ -26,7 +26,7 @@ const Create = () => {
         const newPerson = { ...form };
 
         try {
-            await fetch("http://localhost:3001/", { // Replace with your API URL
+            await fetch("http://localhost:3001/students", { // Replace with your API URL
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -49,7 +49,7 @@ const Create = () => {
     // Render form
     return (
         <div>
-            <h3>Create</h3>
+            <h3>Create New Contact</h3>
             <form onSubmit={onSubmit}>
                 <div className="form-group">
                     <label htmlFor="firstName">First Name</label>
@@ -76,7 +76,7 @@ const Create = () => {
                 <div className="form-group">
                     <label htmlFor="email">Email</label>
                     <input
-                        type="text"
+                        type="email"
                         className="form-control"
                         id="email"
                         value={form.email} // Fixed: Use the value from state
@@ -87,7 +87,7 @@ const Create = () => {
                 <div className="form-group">
                     <label htmlFor="age">Age</label>
                     <input
-                        type="text"
+                        type="number"
                         className="form-control"
                         id="age"
                         value={form.age} // Fixed: Use the value from state

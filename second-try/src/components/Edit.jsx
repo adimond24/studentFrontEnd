@@ -19,7 +19,7 @@ export default function Edit(){
         async function fetchData(){
             const id = params.id.toString();
             const response = await fetch(
-                `mongodb+srv://john:2025Ad69563@nodeexpressprojects.dvz4bvx.mongodb.net/?retryWrites=true&w=majority&appName=NodeExpressProjects/{params.id.toString()}`
+                `http://localhost:3001/students/${id}`
             );
             if(!response.ok){
                 const message = `An error has occured: ${response.statusText}`;
@@ -56,7 +56,9 @@ export default function Edit(){
             currentCollege: form.currentCollege,
         };
         //This will send a post request to update the data in the database.
-        await fetch(`mongodb+srv://john:2025Ad69563@nodeexpressprojects.dvz4bvx.mongodb.net/?retryWrites=true&w=majority&appName=NodeExpressProjects/${params.id}`,{
+        console.log(params.id);
+        
+        await fetch(`http://localhost:3001/students/${params.id}`,{
             method:"PUT",
             body: JSON.stringify(editedPerson),
             headers: {
@@ -90,7 +92,7 @@ export default function Edit(){
                         className="form-control"
                         id="lastName"
                         value={form.lastName}
-                        onChange={(e) => updateFrom({ lastName: e.target.value})}
+                        onChange={(e) => updateForm({ lastName: e.target.value})}
                     >
                     </input>
                 </div>

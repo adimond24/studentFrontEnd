@@ -37,6 +37,11 @@ const App = () => {
   return (
     <div className="App">
       <Navbar />
+      <Routes>
+      <Route path="/" element={<RecordList />} />
+        <Route path="/contacts/create" element={<Create />} />
+        <Route path="/edits/:id" element={<Edit />} /> {/* Updated path for Edit */}
+      </Routes>
     </div>
   );
 }

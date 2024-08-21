@@ -1,4 +1,5 @@
-import React, {useEffect, useState} from "react";
+
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Loader from "./Loader/Loader";
 
@@ -16,9 +17,7 @@ const Record = (props) => (
             |
             <button 
               className="btn btn-link"
-              onClick={() =>{
-                props.deleteRecord(props.record._id);
-              }}
+              onClick={() => props.deleteRecord(props.record._id)}
             >
                 Delete
             </button>
@@ -30,57 +29,54 @@ export default function RecordList() {
     const [loading, setLoading] = useState(true);
     const [records, setRecords] = useState([]);
 
-    //This method fetches the records from the database.
-    useEffect(() =>{
-        setLoading(true);
-        async function getRecords(){
-            const response = await fetch(
-                `http://localhost:3001/students`
-            );
-            console.log(response);
-            setLoading(false);
-            if(!response.ok){
-                const message=`An error occurred: ${response.statusText}`;
-                window.alert(message);
-                return;
+    // Fetch records from the database
+    useEffect(() => {
+        async function getRecords() {
+            try {
+                const response = await fetch(`http://localhost:3001/students`);
+                if (!response.ok) {
+                    throw new Error(`An error occurred: ${response.statusText}`);
+                }
+                const records = await response.json();
+                setRecords(records);
+            } catch (error) {
+                window.alert(error.message);
+            } finally {
+                setLoading(false);
             }
-
-            const records = await response.json();
-            setRecords(records);
         }
-        
+
         getRecords();
-    }, [records.length]);
+    }, []);
 
-    //This method will delete a record
-    async function deleteRecord(id){
-        await fetch(`mongodb+srv://john:2025Ad69563@nodeexpressprojects.dvz4bvx.mongodb.net/?retryWrites=true&w=majority&appName=NodeExpressProjects`, {
-            method: "DELETE",
-        });
-
-        const newRecords = records.filter((el) => el._id !== id);
-        setRecords(newRecords);
+    // Delete a record
+    async function deleteRecord(id) {
+        try {
+            await fetch(`http://localhost:3001/students/${id}`, {
+                method: "DELETE",
+            });
+            setRecords(records.filter((record) => record._id !== id));
+        } catch (error) {
+            window.alert(error.message);
+        }
     }
 
-    //This method will map out the records on the table
+    // Render the list of records
     function recordList() {
-        return records.map((record) => {
-            return(
-                <Record
-                  record={record}
-                  deleteRecord={() => deleteRecord(record._id)}
-                  key={record._id}
-                  />
-            );
-        });
+        return records.map((record) => (
+            <Record
+              record={record}
+              deleteRecord={() => deleteRecord(record._id)}
+              key={record._id}
+            />
+        ));
     }
 
-    //This following section will display the table with the records of indivudals.
-    return(
+    // Render the component
+    return (
         <div className="container">
-            <h3 className="contact-title"> Contact List</h3>
-            <table className="table table-striped" style={{ marginTop: 20}} >
-
+            <h3 className="contact-title">Contact List</h3>
+            <table className="table table-striped" style={{ marginTop: 20 }}>
                 <thead>
                     <tr>
                         <th>First Name</th>
@@ -91,7 +87,7 @@ export default function RecordList() {
                         <th>Modify Student</th>
                     </tr>
                 </thead>
-                <tbody>{loading ? <Loader/>: recordList()}</tbody>
+                <tbody>{loading ? <Loader /> : recordList()}</tbody>
             </table>
         </div>
     );
